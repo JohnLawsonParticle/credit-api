@@ -7,25 +7,16 @@ Created on Fri Jan 14 21:11:26 2022
 
 import uvicorn
 from fastapi import FastAPI
-import joblib
+
 
 import pandas as pd
  
 app = FastAPI(debug=True)
 
-df = pd.read_csv('sampled_test_set_no_pred.csv')
+df = pd.read_csv('sampled_test_set.csv')
 
-model = open('final_model_only.pkl','rb')
-clf = joblib.load(model)
-
-# clf.predict(df)
-
-# id_client = 177250
-
-# resp = df[df['SK_ID_CURR']==int(id_client)].reset_index()
-
-# print(clf.predict(resp)[0])
-
+# model = open('final_model_only.pkl','rb')
+# clf = joblib.load(model)
 
 @app.get('/')
 async def index() : 
@@ -36,9 +27,9 @@ async def index() :
 async def get_predict(id_client) :
     resp = df[df['SK_ID_CURR']==int(id_client)].reset_index()
 
-    target = clf.predict(resp)[0]
+    target = resp.loc[0,"TARGET"]
 
-    score = clf.predict_proba(resp)[0][0]
+    score = resp.loc[0,"Score"]
     
     if int(target) == 1 : 
         prediction = "Faulter"
