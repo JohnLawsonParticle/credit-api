@@ -9,15 +9,23 @@ import uvicorn
 from fastapi import FastAPI
 import joblib
 
-
 import pandas as pd
  
 app = FastAPI(debug=True)
 
 df = pd.read_csv('sampled_test_set_no_pred.csv')
 
-model = open('final_model_only.pkl','rb')
+model = open('final_model.pkl','rb')
 clf = joblib.load(model)
+
+# clf.predict(df)
+
+# id_client = 177250
+
+# resp = df[df['SK_ID_CURR']==int(id_client)].reset_index()
+
+# print(clf.predict(resp)[0])
+
 
 @app.get('/')
 async def index() : 
