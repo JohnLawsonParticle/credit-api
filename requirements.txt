@@ -3,5 +3,5 @@ uvicorn==0.17.0
 pandas==1.3.4
 fastapi==0.71.0
 xgboost
-pycaret==1.0
+pycaret==1.1
 gunicorn
