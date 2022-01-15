@@ -15,7 +15,7 @@ app = FastAPI(debug=True)
 
 df = pd.read_csv('sampled_test_set_no_pred.csv')
 
-model = open('final_model.pkl','rb')
+model = open('final_model_only.pkl','rb')
 clf = joblib.load(model)
 
 # clf.predict(df)
