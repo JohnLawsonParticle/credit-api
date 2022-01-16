@@ -5,3 +5,4 @@ fastapi==0.71.0
 xgboost
 gunicorn
 sklearn
+feature-engine
