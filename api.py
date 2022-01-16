@@ -31,7 +31,7 @@ async def get_predict(id_client) :
 
     target = clf.predict(resp)[0]
 
-    score = max(clf.predict_proba(resp)[0])
+    score = clf.predict_proba(resp)[0][0]
     
     if int(target) == 1 : 
         prediction = "Faulter"
@@ -53,7 +53,7 @@ async def get_predict_simu(id_client,new_credit_amt,new_credit_ann,new_income_pe
     
     target = clf.predict(resp)[0]
 
-    score = max(clf.predict_proba(resp)[0])
+    score = clf.predict_proba(resp)[0][0]
     
     if int(target) == 1 : 
         prediction = "Faulter"
