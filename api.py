@@ -19,6 +19,15 @@ df = pd.read_csv('data_api.csv')
 model = open('pipe_model.joblib','rb')
 clf = joblib.load(model)
 
+
+# id_client = 104460
+
+
+# resp = df[df['SK_ID_CURR']==int(id_client)]
+
+# print(resp)
+
+
 @app.get('/')
 async def index() : 
     return {"text" : "Hello World!"}
@@ -26,7 +35,7 @@ async def index() :
 
 @app.get('/predictions')
 async def get_predict(id_client) :
-    resp = df[df['SK_ID_CURR']==int(id_client)].reset_index()
+    resp = df[df['SK_ID_CURR']==int(id_client)]
 
     target = clf.predict(resp)[0]
 
