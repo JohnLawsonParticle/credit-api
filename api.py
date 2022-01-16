@@ -40,14 +40,14 @@ def predict(resp) :
     return {"score" : str(score), "prediction" : prediction}
     
 
-@app.get('/predictions')
+@app.get('/get_predict')
 async def get_predict(id_client) :
     
     resp = df[df['SK_ID_CURR']==int(id_client)]
 
     return predict(resp)
 
-@app.get('/predictions')
+@app.get('/get_predict_simu')
 async def get_predict_simu(id_client,new_credit_amt,new_credit_ann,new_income_percent,new_credit_term) :
     
     resp = df[df['SK_ID_CURR']==int(id_client)]
