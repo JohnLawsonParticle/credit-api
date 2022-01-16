@@ -25,10 +25,8 @@ async def index() :
     return {"text" : "Hello World!"}
 
 
-@app.get('/predictions')
-async def get_predict(id_client) :
-    resp = df[df['SK_ID_CURR']==int(id_client)]
-
+def predict(resp) : 
+    
     target = clf.predict(resp)[0]
 
     score = clf.predict_proba(resp)[0][0]
@@ -39,7 +37,15 @@ async def get_predict(id_client) :
         prediction = "Non Faulter"
         
         
-    return {"id" : id_client, "score" : str(score), "prediction" : prediction}
+    return {"score" : str(score), "prediction" : prediction}
+    
+
+@app.get('/predictions')
+async def get_predict(id_client) :
+    
+    resp = df[df['SK_ID_CURR']==int(id_client)]
+
+    return predict(resp)
 
 @app.get('/predictions')
 async def get_predict_simu(id_client,new_credit_amt,new_credit_ann,new_income_percent,new_credit_term) :
@@ -51,17 +57,7 @@ async def get_predict_simu(id_client,new_credit_amt,new_credit_ann,new_income_pe
     resp["CREDIT_INCOME_PERCENT"] = new_income_percent
     resp["CREDIT_TERM"] = new_credit_term
     
-    target = clf.predict(resp)[0]
-
-    score = clf.predict_proba(resp)[0][0]
-    
-    if int(target) == 1 : 
-        prediction = "Faulter"
-    else : 
-        prediction = "Non Faulter"
-        
-        
-    return {"id" : id_client, "score" : str(score), "prediction" : prediction}
+    return predict(resp)
     
 
 if __name__ == '__main__' : 
