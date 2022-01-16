@@ -14,7 +14,7 @@ import pandas as pd
  
 app = FastAPI(debug=True)
 
-df = pd.read_csv('sampled_test_set_no_pred_v2.csv')
+df = pd.read_csv('data_api.csv')
 
 model = open('pipe_model.joblib','rb')
 clf = joblib.load(model)
