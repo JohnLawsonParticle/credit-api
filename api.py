@@ -79,12 +79,21 @@ async def get_predict_simu(id_client,new_credit_amt,new_credit_ann,new_income_pe
 async def get_neighbours(id_client) :
         
     neigh = indices[get_index_from_SK_ID(int(id_client))]
+    dist = distances[get_index_from_SK_ID(int(id_client))]
+    
     neigh_1 = neigh[1]
     neigh_2 = neigh[2]
     neigh_3 = neigh[3]
     neigh_4 = neigh[4]
     
-    return {"neigh_1" : int(neigh_1), "neigh_2" : int(neigh_2), "neigh_3" : int(neigh_3), "neigh_4" : int(neigh_4)}
+    dist_1 = dist[1]
+    dist_2 = dist[2]
+    dist_3 = dist[3]
+    dist_4 = dist[4]
+    
+    
+    return {"neigh_1" : int(neigh_1), "neigh_2" : int(neigh_2), "neigh_3" : int(neigh_3), "neigh_4" : int(neigh_4),
+            "dist_1" : int(dist_1), "dist_2" : int(dist_2), "dist_3" : int(dist_3), "dist_4" : int(dist_4)}
   
 
 if __name__ == '__main__' : 
