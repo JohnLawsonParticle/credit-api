@@ -9,6 +9,7 @@ import uvicorn
 from fastapi import FastAPI
 import joblib
 import xgboost
+from sklearn.neighbors import NearestNeighbors
 
 import pandas as pd
  
@@ -18,6 +19,21 @@ df = pd.read_csv('data_api.csv')
 
 model = open('pipe_model.joblib','rb')
 clf = joblib.load(model)
+
+processor = open('processor.joblib','rb')
+prep_pipe = joblib.load(processor)
+
+df_trans = prep_pipe.fit_transform(df)
+
+nbrs = NearestNeighbors(n_neighbors=5)
+nbrs.fit(df_trans)
+
+distances, indices = nbrs.kneighbors(df_trans)
+
+def get_index_from_SK_ID(sk_id = df.loc[0,"SK_ID_CURR"]) :
+    loc_id = df.loc[df["SK_ID_CURR"] == sk_id,"SK_ID_CURR"]
+    index_user = loc_id.index.values[0]
+    return index_user
 
 
 @app.get('/')
@@ -58,7 +74,18 @@ async def get_predict_simu(id_client,new_credit_amt,new_credit_ann,new_income_pe
     resp["CREDIT_TERM"] = new_credit_term
     
     return predict(resp)
+
+@app.get('/get_neighbours')
+async def get_neighbours(id_client) :
+        
+    neigh = indices[get_index_from_SK_ID(int(id_client))]
+    neigh_1 = neigh[1]
+    neigh_2 = neigh[2]
+    neigh_3 = neigh[3]
+    neigh_4 = neigh[4]
     
+    return {"neigh_1" : int(neigh_1), "neigh_2" : int(neigh_2), "neigh_3" : int(neigh_3), "neigh_4" : int(neigh_4)}
+  
 
 if __name__ == '__main__' : 
     uvicorn.run(app, host="127.0.0.1",port=8000)
